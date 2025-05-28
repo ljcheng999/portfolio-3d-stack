@@ -63,9 +63,8 @@ module "wafv2" {
   description = "${local.cloudfront_waf_name} - portfolio webapp"
   scope       = var.cloudfront_waf_scope
 
+  rule           = var.cloudfront_waf_rules
   default_action = var.cloudfront_waf_default_action
-
-  rule = var.cloudfront_waf_rules
 
   enabled_web_acl_association = true
   resource_arn                = []
@@ -108,10 +107,10 @@ module "cloudfront" {
   create_vpc_origin   = var.create_vpc_origin
   default_root_object = var.cloudfront_default_root_object
 
-  logging_config = {
-    bucket = module.s3.s3_bucket_bucket_domain_name
-    prefix = "cloudfront"
-  }
+  # logging_config = {
+  #   bucket = module.s3.s3_bucket_bucket_domain_name
+  #   prefix = "cloudfront"
+  # }
 
   create_origin_access_control = true
   origin_access_control = {

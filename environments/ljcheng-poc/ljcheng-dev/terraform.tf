@@ -8,4 +8,4 @@ cloudfront_waf_default_action = "allow"
 additional_tags               = {}
 
 
-# assume_role_str   = "arn:aws:iam::533267295140:role/dm-infra-runner-role"
+# assume_role_str   = ""
