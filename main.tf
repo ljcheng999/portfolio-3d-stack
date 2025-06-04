@@ -124,18 +124,8 @@ module "cloudfront" {
 
   origin = {
     "${local.subdomain}.${local.domain_name}" = {
-      domain_name = module.s3.s3_bucket_bucket_regional_domain_name
-
-      ### There is a bug for this, you have to manually add OAC to S3 in AWS console
-      # origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
-
-      custom_origin_config = {
-        http_port              = 80
-        https_port             = 443
-        origin_protocol_policy = "match-viewer"
-        origin_ssl_protocols   = ["TLSv1.2"]
-      }
-
+      domain_name           = module.s3.s3_bucket_bucket_regional_domain_name
+      origin_access_control = "${local.subdomain}.${local.domain_name}"
       origin_shield = {
         enabled              = true
         origin_shield_region = var.default_region
