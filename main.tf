@@ -126,6 +126,18 @@ module "cloudfront" {
     "${local.subdomain}.${local.domain_name}" = {
       domain_name           = module.s3.s3_bucket_bucket_regional_domain_name
       origin_access_control = "${local.subdomain}.${local.domain_name}"
+
+      ### OAI = origin_access_control_id, deprecated
+      # origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
+
+      ### Do not configure custom_origin_config if you would like to use OAC to S3
+      # custom_origin_config = {
+      #   http_port              = 80
+      #   https_port             = 443
+      #   origin_protocol_policy = "match-viewer"
+      #   origin_ssl_protocols   = ["TLSv1.2"]
+      # }
+
       origin_shield = {
         enabled              = true
         origin_shield_region = var.default_region
