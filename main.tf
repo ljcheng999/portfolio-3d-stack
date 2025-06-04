@@ -161,6 +161,9 @@ module "cloudfront" {
   viewer_certificate = {
     acm_certificate_arn = module.acm.acm_certificate_arn
     ssl_support_method  = "sni-only" #sni-only is for production
+
+    cloudfront_default_certificate = false
+    minimum_protocol_version       = "TLSv1.2_2021"
   }
 
   # geo_restriction = {
