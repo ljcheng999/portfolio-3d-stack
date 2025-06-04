@@ -60,6 +60,11 @@ variable "cloudfront_waf_acl_visibility_config" {
   default = {}
 }
 
+variable "custom_ordered_cache_behavior" {
+  type    = list(any)
+  default = []
+}
+
 variable "cloudfront_waf_rules" {
   default = [
     {

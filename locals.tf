@@ -21,4 +21,39 @@ locals {
     sampled_requests_enabled   = true
     metric_name                = "${local.subdomain_reference}_cf_waf_cloudwatch_metric"
   }
+
+  original_cache_behavior = [
+    {
+      target_origin_id       = "${var.subdomain}.${var.domain_name}"
+      viewer_protocol_policy = "redirect-to-https"
+
+      cached_methods  = ["GET", "HEAD"]
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+
+    },
+    {
+      target_origin_id       = "${var.subdomain}.${var.domain_name}"
+      viewer_protocol_policy = "redirect-to-https"
+
+      cached_methods  = ["GET", "HEAD"]
+      allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+
+    },
+  ]
+
+  ordered_cache_behavior = length(var.custom_ordered_cache_behavior) > 0 ? flatten([
+    for a_map in var.custom_ordered_cache_behavior : [
+      {
+        "path_pattern"         = a_map.path_pattern,
+        "cache_policy_name"    = a_map.cache_policy_name,
+        "compress"             = a_map.compress,
+        target_origin_id       = "${var.subdomain}.${var.domain_name}",
+        viewer_protocol_policy = "redirect-to-https",
+        cached_methods         = ["GET", "HEAD"],
+        allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"],
+        use_forwarded_values   = false
+      },
+    ]
+  ]) : []
+
 }

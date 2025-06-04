@@ -147,14 +147,16 @@ module "cloudfront" {
     target_origin_id       = "${local.subdomain}.${local.domain_name}"
     viewer_protocol_policy = "redirect-to-https"
 
-    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods  = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
 
     use_forwarded_values = false
 
     cache_policy_id            = "b2884449-e4de-46a7-ac36-70bc7f1ddd6d"
     response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
   }
+
+  ordered_cache_behavior = local.ordered_cache_behavior
 
   viewer_certificate = {
     acm_certificate_arn = module.acm.acm_certificate_arn
